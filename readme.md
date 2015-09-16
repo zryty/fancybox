@@ -1,4 +1,4 @@
-fancybox v1.3.6 / ProcessWire
+fancybox v1.3.7
 ===========================================================================
 
 <strong><a href="http://playground.com.hr/fancybox/">DEMO</a></strong>
@@ -9,12 +9,11 @@ fancybox v1.3.6 / ProcessWire
 2. CSS3 optimizations
 3. iframe fix
 4. dropped IE6-7 support for shadows &amp; opacity.
+5. compatible with Bootstrap v3 and jQuery v2.x
 
 <strong>Usage</strong>
 
 Check out the <a href="http://fancybox.net/api">API</a> at official site. There is a new option <strong>showIframeLoading</strong> (true/false; default:true) that shows loading indicator (spinner) while loading iframes.
-
-You can use plugin as standalone, these optimizations are not tied to ProcessWire CMS (but are implemented for it).
 
 <strong>Meta</strong>
 

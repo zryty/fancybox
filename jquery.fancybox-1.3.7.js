@@ -5,10 +5,10 @@
  * Examples and documentation at: http://fancybox.net
  *
  * Copyright (c) 2008 - 2010 Janis Skarnelis
- * Modified 2012 Nikola Vidoni (mobile ready, CSS3 optimizations, dropped IE6-7 support for shadows & opacity)
- * That said, it is hardly a one-person project. Many people have submitted bugs, code, and offered their advice freely. Their support is greatly appreciated.
+ * Modified 2012 Nikola Vidoni
+ * Modified 2015 Krzysztof Łukasiak
  *
- * Version: 1.3.6 (22/11/2012)
+ * Version: 1.3.7 (15/09/2015)
  * Requires: jQuery v1.3+
  *
  * Dual licensed under the MIT and GPL licenses:
@@ -26,7 +26,7 @@
 		titleHeight = 0, titleStr = '', start_pos, final_pos, busy = false, fx = $.extend($('<div/>')[0], { prop: 0 }),
 
 		/*
-		 * Private methods 
+		 * Private methods
 		 */
 
 		_abort = function() {
@@ -60,8 +60,8 @@
 
 		_start = function() {
 			var obj = selectedArray[ selectedIndex ],
-				href, 
-				type, 
+				href,
+				type,
 				title,
 				str,
 				emb,
@@ -143,7 +143,7 @@
 					selectedOpts.width = 'auto';
 					selectedOpts.height = 'auto';
 				} else {
-					selectedOpts.autoDimensions = false;	
+					selectedOpts.autoDimensions = false;
 				}
 			}
 
@@ -161,7 +161,7 @@
 			tmp.css('padding', (selectedOpts.padding + selectedOpts.margin));
 
 			$('.fancybox-inline-tmp').unbind('fancybox-cancel').bind('fancybox-change', function() {
-				$(this).replaceWith(content.children());				
+				$(this).replaceWith(content.children());
 			});
 
 			switch (type) {
@@ -241,7 +241,7 @@
 						url	: href,
 						data : selectedOpts.ajax.data || {},
 						error : function(XMLHttpRequest, textStatus, errorThrown) {
-							if ( XMLHttpRequest.status > 0 ) {
+							if ( !XMLHttpRequest || XMLHttpRequest.status > 0 ) {
 								_error();
 							}
 						},
@@ -282,14 +282,14 @@
 				w = parseInt( ($(window).width() - (selectedOpts.margin * 2)) * parseFloat(w) / 100, 10) + 'px';
 
 			} else {
-				w = w == 'auto' ? 'auto' : w + 'px';	
+				w = w == 'auto' ? 'auto' : w + 'px';
 			}
 
 			if (h.toString().indexOf('%') > -1) {
 				h = parseInt( ($(window).height() - (selectedOpts.margin * 2)) * parseFloat(h) / 100, 10) + 'px';
 
 			} else {
-				h = h == 'auto' ? 'auto' : h + 'px';	
+				h = h == 'auto' ? 'auto' : h + 'px';
 			}
 
 			tmp.wrapInner('<div style="width:' + w + ';height:' + h + ';overflow: ' + (selectedOpts.scrolling == 'auto' ? 'auto' : (selectedOpts.scrolling == 'yes' ? 'scroll' : 'hidden')) + ';position:relative;"></div>');
@@ -435,8 +435,8 @@
 				return;
 			}
 
-			if (currentOpts.titlePosition == 'inside' && titleHeight > 0) {	
-				title.show();	
+			if (currentOpts.titlePosition == 'inside' && titleHeight > 0) {
+				title.show();
 			}
 
 			content
@@ -550,7 +550,7 @@
 				});
 			}
 
-			if (!currentOpts.showNavArrows) { 
+			if (!currentOpts.showNavArrows) {
 				nav_left.hide();
 				nav_right.hide();
 				return;
@@ -566,11 +566,6 @@
 		},
 
 		_finish = function () {
-			if (!$.support.opacity) {
-				content.get(0).style.removeAttribute('filter');
-				wrap.get(0).style.removeAttribute('filter');
-			}
-
 			if (selectedOpts.autoDimensions) {
 				content.css('height', 'auto');
 			}
@@ -586,7 +581,7 @@
 			}
 
 			_set_navigation();
-	
+
 			if (currentOpts.hideOnContentClick)	{
 				content.bind('click', $.fancybox.close);
 			}
@@ -605,7 +600,7 @@
 			    if (selectedOpts && selectedOpts.showIframeLoading) {
 				    $.fancybox.showActivity();
 			    }
-				$('<iframe id="fancybox-frame" name="fancybox-frame' + new Date().getTime() + '" frameborder="0" hspace="0" ' + ($.browser.msie ? 'allowtransparency="true""' : '') + ' scrolling="' + selectedOpts.scrolling + '" src="' + currentOpts.href + '"></iframe>').appendTo(content).load(function() {
+				$('<iframe id="fancybox-frame" name="fancybox-frame' + new Date().getTime() + '" frameborder="0" hspace="0" allowtransparency="true"" scrolling="' + selectedOpts.scrolling + '" src="' + currentOpts.href + '"></iframe>').appendTo(content).load(function() {
 					if (selectedOpts && selectedOpts.showIframeLoading) {
 						$.fancybox.hideActivity();
 					}
@@ -627,7 +622,7 @@
 		},
 
 		_preload_images = function() {
-			var href, 
+			var href,
 				objNext;
 
 			if ((currentArray.length -1) > currentIndex) {
@@ -671,19 +666,19 @@
 		},
 
 		_get_viewport = function() {
-			
+
 			var ua = navigator.userAgent;
 			var device = {
 				iphone: ua.match(/(iPhone|iPod|iPad)/),
 				android: ua.match(/Android/),
 				blackberry: ua.match(/BlackBerry/)
 			};
-			
+
 			if(device.iphone || device.android || device.blackberry) {
- 
+
 				var viewportwidth;
                 var viewportheight;
- 
+
                 if (typeof window.innerWidth != 'undefined') {
                 	viewportwidth = window.innerWidth - currentOpts.margin;
                 	viewportheight = window.innerHeight - currentOpts.margin;
@@ -801,7 +796,7 @@
 		};
 
 	/*
-	 * Public methods 
+	 * Public methods
 	 */
 
 	$.fn.fancybox = function(options) {
@@ -1031,14 +1026,14 @@
 		var view, align;
 
 		if (busy) {
-			return;	
+			return;
 		}
 
 		align = arguments[0] === true ? 1 : 0;
 		view = _get_viewport();
 
 		if (!align && (wrap.width() > view[0] || wrap.height() > view[1])) {
-			return;	
+			return;
 		}
 
 		wrap
